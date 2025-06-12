@@ -1,0 +1,124 @@
+class Stack:
+    """Класс, реализующий структуру данных стек."""
+
+    def __init__(self):
+        """Инициализирует стек с максимальным размером 100 элементов."""
+        self.__items = []
+        self.__max_size = 100
+
+    def push(self, value):
+        """
+        Добавляет элемент в стек.
+
+        Args:
+            value: Число для добавления
+
+        Returns:
+            "ok" при успехе, сообщение об ошибке при переполнении
+        """
+        if len(self.__items) >= self.__max_size:
+            return "error: stack overflow"
+        self.__items.append(value)
+        return "ok"
+
+    def pop(self):
+        """
+        Удаляет и возвращает верхний элемент стека.
+
+        Returns:
+            Значение элемента или сообщение об ошибке
+        """
+        if not self.__items:
+            return "error: stack is empty"
+        return str(self.__items.pop())
+
+    def back(self):
+        """
+        Возвращает верхний элемент без удаления.
+
+        Returns:
+            Значение элемента или сообщение об ошибке
+        """
+        if not self.__items:
+            return "error: stack is empty"
+        return str(self.__items[-1])
+
+    def size(self):
+        """
+        Возвращает количество элементов в стеке.
+
+        Returns:
+            Количество элементов в виде строки
+        """
+        return str(len(self.__items))
+
+    def clear(self):
+        """Очищает стек и возвращает подтверждение."""
+        self.__items = []
+        return "ok"
+
+
+def display_menu():
+    """Выводит меню команд с цифрами."""
+    print("\nМеню команд:")
+    print("1. Добавить число в стек (push)")
+    print("2. Удалить и получить верхний элемент (pop)")
+    print("3. Посмотреть верхний элемент (back)")
+    print("4. Узнать размер стека (size)")
+    print("5. Очистить стек (clear)")
+    print("6. Показать это меню (help)")
+    print("0. Выйти из программы (exit)")
+    print("\nВведите цифру команды:")
+
+
+def main():
+    """Основная функция программы."""
+    stack = Stack()
+    print("Добро пожаловать в программу 'Стек'!")
+    display_menu()
+
+    while True:
+        try:
+            user_input = input("\n> ").strip()
+
+            if not user_input:
+                continue
+
+            if user_input == "1":  # push
+                try:
+                    value = int(input("Введите число для добавления: "))
+                    print(stack.push(value))
+                except ValueError:
+                    print("Ошибка: введите целое число")
+
+            elif user_input == "2":  # pop
+                print(stack.pop())
+
+            elif user_input == "3":  # back
+                print(stack.back())
+
+            elif user_input == "4":  # size
+                print(stack.size())
+
+            elif user_input == "5":  # clear
+                print(stack.clear())
+
+            elif user_input == "6":  # help
+                display_menu()
+
+            elif user_input == "0":  # exit
+                print("bye")
+                break
+
+            else:
+                print("Неизвестная команда. Введите цифру от 0 до 6")
+
+        except KeyboardInterrupt:
+            print("\nПрограмма завершена")
+            break
+        except Exception:
+            print("Произошла ошибка. Попробуйте снова")
+
+
+if __name__ == "__main__":
+    main()
