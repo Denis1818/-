@@ -1,65 +1,65 @@
+class StackNode:
+    """Узел стека."""
+
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+
 class Stack:
     """Класс, реализующий структуру данных стек."""
 
     def __init__(self):
         """Инициализирует стек с максимальным размером 100 элементов."""
-        self.__items = []
+        self.__top = None
+        self.__size = 0
         self.__max_size = 100
 
     def push(self, value):
         """
         Добавляет элемент в стек.
-
-        Args:
-            value: Число для добавления
-
-        Returns:
-            "ok" при успехе, сообщение об ошибке при переполнении
         """
-        if len(self.__items) >= self.__max_size:
+        if self.__size >= self.__max_size:
             return "error: stack overflow"
-        self.__items.append(value)
+        new_node = StackNode(value)
+        new_node.next = self.__top
+        self.__top = new_node
+        self.__size += 1
         return "ok"
 
     def pop(self):
         """
         Удаляет и возвращает верхний элемент стека.
-
-        Returns:
-            Значение элемента или сообщение об ошибке
         """
-        if not self.__items:
+        if self.__top is None:
             return "error: stack is empty"
-        return str(self.__items.pop())
+        value = self.__top.value
+        self.__top = self.__top.next
+        self.__size -= 1
+        return str(value)
 
     def back(self):
         """
         Возвращает верхний элемент без удаления.
-
-        Returns:
-            Значение элемента или сообщение об ошибке
         """
-        if not self.__items:
+        if self.__top is None:
             return "error: stack is empty"
-        return str(self.__items[-1])
+        return str(self.__top.value)
 
     def size(self):
         """
         Возвращает количество элементов в стеке.
-
-        Returns:
-            Количество элементов в виде строки
         """
-        return str(len(self.__items))
+        return str(self.__size)
 
     def clear(self):
         """Очищает стек и возвращает подтверждение."""
-        self.__items = []
+        self.__top = None
+        self.__size = 0
         return "ok"
 
 
 def display_menu():
-    """Выводит меню команд с цифрами."""
     print("\nМеню команд:")
     print("1. Добавить число в стек (push)")
     print("2. Удалить и получить верхний элемент (pop)")
@@ -72,14 +72,13 @@ def display_menu():
 
 
 def main():
-    """Основная функция программы."""
     stack = Stack()
     print("Добро пожаловать в программу 'Стек'!")
     display_menu()
 
     while True:
         try:
-            user_input = input("\n> ").strip()
+            user_input = input("\nВведи номер команды-> ").strip()
 
             if not user_input:
                 continue
